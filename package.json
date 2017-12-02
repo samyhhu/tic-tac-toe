@@ -1,0 +1,28 @@
+{
+  "name": "tic-tac-toe",
+  "version": "0.0.1",
+  "description": "Tic-Tac-Toe game on Ethereum blockchain",
+  "scripts": {
+    "test": "truffle test",
+    "compile": "truffle compile",
+    "truffle": "truffle",
+    "testrpc": "testrpc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/murisimov/tic-tac-toe.git"
+  },
+  "keywords": [
+    "ethereum",
+    "solidity",
+    "truffle"
+  ],
+  "author": "crypto-heroes",
+  "contributors": [],
+  "license": "LGPL-3.0",
+  "homepage": "",
+  "dependencies": {
+    "ethereumjs-testrpc": "6.0.3",
+    "truffle": "4.0.1"
+  }
+}
