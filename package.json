@@ -6,7 +6,7 @@
     "test": "truffle test",
     "compile": "truffle compile",
     "truffle": "truffle",
-    "testrpc": "testrpc"
+    "ganache-cli": "ganache-cli --version"
   },
   "repository": {
     "type": "git",
@@ -15,14 +15,15 @@
   "keywords": [
     "ethereum",
     "solidity",
-    "truffle"
+    "truffle",
+    "ganache"
   ],
   "author": "crypto-heroes",
   "contributors": [],
   "license": "LGPL-3.0",
   "homepage": "",
   "dependencies": {
-    "ethereumjs-testrpc": "6.0.3",
-    "truffle": "4.0.1"
+    "ganache-cli": "6.0.3",
+    "truffle": "4.0.3"
   }
 }
