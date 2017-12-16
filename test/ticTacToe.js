@@ -124,15 +124,13 @@ contract('TicTacToe', async function(accounts) {
       asserts.equal(currentOtherState, 2)
     })
 
-    xit(
-      'should emit event about state changes when calling other function by non-owner',
-      async () => {
-        const tx = await ticTacToe.other(5, {from: NON_OWNER})
-        asserts.equal(tx.logs.length, 1)
-        asserts.equal(tx.logs[0].address, ticTacToe.address)
-        asserts.equal(tx.logs[0].event, 'StateChanged')
-        asserts.equal(tx.logs[0].args.changedTo, 5)
-      }
-    )
+    it('should emit event about state changes when calling other function by non-owner', async () => {
+      const tx = await ticTacToe.other(2, {from: NON_OWNER})
+      asserts.equal(tx.logs.length, 1)
+      asserts.equal(tx.logs[0].address, ticTacToe.address)
+      asserts.equal(tx.logs[0].event, 'StateChanged')
+      asserts.equal(tx.logs[0].args.ownerState, 0)
+      asserts.equal(tx.logs[0].args.otherState, 2)
+    })
   })
 })
