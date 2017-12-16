@@ -1,10 +1,7 @@
 pragma solidity 0.4.18;
 
-
 contract TicTacToe {
-
     // NOTE: All of the content here is just to provide some test examples
-
     address owner;
 
     // Storage variable must be public if we want automatically have a getter for it
