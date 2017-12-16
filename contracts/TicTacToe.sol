@@ -1,4 +1,4 @@
-pragma solidity 0.4.18;
+pragma solidity ^0.4.19;
 
 contract TicTacToe {
     // NOTE: All of the content here is just to provide some test examples
@@ -11,24 +11,10 @@ contract TicTacToe {
 
     event StateChanged(uint16 ownerState, uint16 otherState);
     event Error(string msg);
+    event Victory(string msg);
 
     function TicTacToe() public {
         owner = msg.sender;
-    }
-
-    function setOwnerState(uint16 _newState) public returns(bool) {
-      ownerState = _newState;
-      return true;
-    }
-
-    function setOtherState(uint16 _newState) public returns(bool) {
-      otherState = _newState;
-      return true;
-    }
-
-    function setGameState(uint16 _newState) public returns(bool) {
-      gameState = _newState;
-      return true;
     }
 
     function only_one_bit_set(uint16 state) private pure returns(bool) {
@@ -67,10 +53,10 @@ contract TicTacToe {
           Error("Invalid move");
           return false;
         }
-        setOwnerState(_newState);
+        ownerState = _newState;
         if (victory(ownerState)) {
-          Error("Game over! Owner wins!");
-          setGameState(1);
+          Victory("Game over! Owner wins!");
+          gameState = 1;
         }
         StateChanged(ownerState, otherState);
         return true;
@@ -80,14 +66,18 @@ contract TicTacToe {
     function other(uint16 _newState) public returns(bool) {
       require(gameState == 0);
 
+      if (msg.sender == owner) {
+        Error("Owner can not play for other");
+        return false;
+      }
       if (!valid(otherState, ownerState, _newState)) {
         Error("Invalid move");
         return false;
       }
-      setOtherState(_newState);
+      otherState = _newState;
       if (victory(otherState)) {
-        Error("Game over! Other wins!");
-        setGameState(2);
+        Victory("Game over! Other wins!");
+        gameState = 2;
       }
       StateChanged(ownerState, otherState);
       // Require goes after state changes in order to demonstrate changes reversion
