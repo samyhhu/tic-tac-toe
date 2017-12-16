@@ -8,6 +8,7 @@ contract TicTacToe {
     uint16 public ownerState;
     uint16 public otherState;
     uint16 public gameState; // 0 playable, 1 ownerWon, 2 otherWon, 3 draw, etc.
+    bool public ownersTurn;
 
     event StateChanged(uint16 ownerState, uint16 otherState);
     event Error(string msg);
@@ -15,6 +16,7 @@ contract TicTacToe {
 
     function TicTacToe() public {
         owner = msg.sender;
+        ownersTurn = true;
     }
 
     function only_one_bit_set(uint16 state) private pure returns(bool) {
@@ -45,6 +47,10 @@ contract TicTacToe {
     function main(uint16 _newState) public returns(bool) {
         require(gameState == 0);
 
+        if (ownersTurn != true) {
+          Error("Wrong player");
+          return false;
+        }
         if (msg.sender != owner) {
           Error("You are not the owner");
           return false;
@@ -59,6 +65,7 @@ contract TicTacToe {
           gameState = 1;
         }
         StateChanged(ownerState, otherState);
+        ownersTurn = false;
         return true;
     }
 
@@ -66,6 +73,10 @@ contract TicTacToe {
     function other(uint16 _newState) public returns(bool) {
       require(gameState == 0);
 
+      if (ownersTurn != false) {
+        Error("Wrong player");
+        return false;
+      }
       if (msg.sender == owner) {
         Error("Owner can not play for other");
         return false;
@@ -82,6 +93,7 @@ contract TicTacToe {
       StateChanged(ownerState, otherState);
       // Require goes after state changes in order to demonstrate changes reversion
       require(msg.sender != owner);
+      ownersTurn = true;
       return true;
     }
 
