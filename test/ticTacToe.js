@@ -121,7 +121,32 @@ contract('TicTacToe', async function(accounts) {
     it('should reject two sequential moves by other', async () => {})
     it('should reject multiple simultaneous moves by owner', async () => {})
     it('should reject multiple simultaneous moves by other', async () => {})
-    it('should allow & log other victory', async () => {})
+    it('should allow & log other victory', async () => {
+      let gameState
+      let currentOwnerState
+      let currentOtherState
+
+      await ticTacToe.main(1, {from: OWNER})
+      currentOwnerState = await ticTacToe.ownerState()
+      asserts.equal(currentOwnerState, 1)
+
+      await ticTacToe.other(2, {from: NON_OWNER})
+      currentOtherState = await ticTacToe.otherState()
+      asserts.equal(currentOtherState, 2)
+
+      await ticTacToe.main(17, {from: OWNER})
+      currentOwnerState = await ticTacToe.ownerState()
+      asserts.equal(currentOwnerState, 17)
+
+      await ticTacToe.other(6, {from: NON_OWNER})
+      currentOtherState = await ticTacToe.otherState()
+      asserts.equal(currentOtherState, 6)
+
+      await ticTacToe.main(273, {from: OWNER})
+
+      gameState = await ticTacToe.gameState()
+      assert.equal(gameState, 1) // owner wins!
+    })
     it('should allow & log other victory', async () => {})
     it('should allow & log draw', async () => {})
   })
