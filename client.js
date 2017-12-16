@@ -1,0 +1,41 @@
+// Available Accounts
+// ==================
+// (0) 0x91a667d99d3fc21df88fb2cadb6118a1ebf696f5
+// (1) 0x511920a3d92ad07a1a3fccbd0991f013d67f7f2a
+// (2) 0xf33c88d3251cdb640aafc073dd6e6ba75364afd5
+// (3) 0x7440a9ec93ebc52a55938ec309cc163c07e456bd
+// (4) 0x152ed5a88fa0e3b25abc62cfe3dc67bceb2c2862
+// (5) 0x83826eb278207a5884ffe11da81d43e41e27604c
+// (6) 0x6591539638e1535221527ba04f65e33186236750
+// (7) 0x55bcf9cdb06a44ec63e0fa6e6ae0a842d4961ff1
+// (8) 0xe49dee3b745691d112e73733b4bc01b2dacea80c
+// (9) 0x5cab13bbfad43f32c4e72bfd8ee50a85b7495de2
+//
+// Private Keys
+// ==================
+// (0) 06d259e0c6cdd5da310e6f9aa0737037b18fa59869c11753e4c6e74d8713259e
+// (1) 6a4e32d91c6fc27b3b98b573516b9c71599c3711f781d0d48422d79aff980b4f
+// (2) 8d9ddd62e2e9987d8357120c9cf67814cec9e4d44a1fb3bcb523a38afd71f392
+// (3) 0679d19e970f7b2396f910bcfe05ed9386a278c06162ab924736185db40456cd
+// (4) 3d6ce8469705e9fb049c5236e9f9489a26ca85c188c94ed2376cea95668fc3b1
+// (5) c706b5f323009b26d5219bb2394cd551793270df572958eecdfbda2ce7a9167c
+// (6) 3cd9d3337f33bd46f393a323a287f3629196af1e84c9a89d60603c290d2444d1
+// (7) 90863072b2f6f0dffc3e14d56f5e8d9ba27f63566bdbe36918ddc229ec9be5d5
+// (8) 830107be111f7521d673127f0bb470b31da05ad0f9111bd9b46ee5a19a49714f
+// (9) a26efd54fa091374c0046f22a1dc0d3d5bd09df563d1633f55a3b14c1e056376
+
+"use strict";
+
+const TicTacToe = artifacts.require('./TicTacToe.sol');
+
+
+contract('TicTacToe', async function(accounts) {
+
+
+    const OWNER = accounts[0];
+    const NON_OWNER = accounts[1];
+
+    let ticTacToe;
+
+
+});
