@@ -15,18 +15,18 @@ contract TicTacToe {
         owner = msg.sender;
     }
 
-    function only_one_bit_set(uint16 state) private returns(bool) {
+    function only_one_bit_set(uint16 state) private pure returns(bool) {
         return (state > 0 && ~(state & (state-1)) > 0);
     }
 
-    function valid(uint16 state, uint16 opponentState, uint16 _newState) private returns(bool) {
+    function valid(uint16 state, uint16 opponentState, uint16 _newState) private pure returns(bool) {
       return (
         only_one_bit_set(state ^ _newState) // can't play more than one move per turn
         && (opponentState & _newState) > 0 // can't play on the same space as opponent
       );
     }
 
-    function victory(uint16 state) private returns(bool) {
+    function victory(uint16 state) private pure returns(bool) {
       return (
         (state & 448) == 448    //= 2**8 + 2**7 + 2**6 = 111 000 000
         || (state & 56) == 56   //= 2**5 + 2**4 + 2**3 = 000 111 000
