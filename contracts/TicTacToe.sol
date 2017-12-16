@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.18;
 
 contract TicTacToe {
     // NOTE: All of the content here is just to provide some test examples
@@ -17,6 +17,21 @@ contract TicTacToe {
     function TicTacToe() public {
         owner = msg.sender;
         ownersTurn = true;
+    }
+
+    function setOwnerState(uint16 _newState) public returns(bool) {
+      ownerState = _newState;
+      return true;
+    }
+
+    function setOtherState(uint16 _newState) public returns(bool) {
+      otherState = _newState;
+      return true;
+    }
+
+    function setGameState(uint16 _newState) public returns(bool) {
+      gameState = _newState;
+      return true;
     }
 
     function only_one_bit_set(uint16 state) private pure returns(bool) {
