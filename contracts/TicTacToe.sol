@@ -13,7 +13,7 @@ contract TicTacToe {
     event StateChanged(uint256 changedTo);
     event Error(string msg);
 
-    function TicTacToe() {
+    function TicTacToe() public {
         owner = msg.sender;
     }
 
