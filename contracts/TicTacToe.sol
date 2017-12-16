@@ -7,12 +7,28 @@ contract TicTacToe {
     // Storage variable must be public if we want automatically have a getter for it
     uint16 public ownerState;
     uint16 public otherState;
+    uint16 public gameState; // 0 playable, 1 ownerWon, 2 otherWon, 3 draw, etc.
 
     event StateChanged(uint16 ownerState, uint16 otherState);
     event Error(string msg);
 
     function TicTacToe() public {
         owner = msg.sender;
+    }
+
+    function setOwnerState(uint16 _newState) public returns(bool) {
+      ownerState = _newState;
+      return true;
+    }
+
+    function setOtherState(uint16 _newState) public returns(bool) {
+      otherState = _newState;
+      return true;
+    }
+
+    function setGameState(uint16 _newState) public returns(bool) {
+      gameState = _newState;
+      return true;
     }
 
     function only_one_bit_set(uint16 state) private pure returns(bool) {
@@ -22,7 +38,7 @@ contract TicTacToe {
     function valid(uint16 state, uint16 opponentState, uint16 _newState) private pure returns(bool) {
       return (
         only_one_bit_set(state ^ _newState) // can't play more than one move per turn
-        && (opponentState & _newState) > 0 // can't play on the same space as opponent
+        && (opponentState & _newState) == 0 // can't play on the same space as opponent
       );
     }
 
@@ -41,6 +57,8 @@ contract TicTacToe {
 
     // Function to test return value, state changes and event emission
     function main(uint16 _newState) public returns(bool) {
+        require(gameState == 0);
+
         if (msg.sender != owner) {
           Error("You are not the owner");
           return false;
@@ -49,9 +67,10 @@ contract TicTacToe {
           Error("Invalid move");
           return false;
         }
-        ownerState = _newState;
+        setOwnerState(_newState);
         if (victory(ownerState)) {
-          // Victory
+          Error("Game over! Owner wins!");
+          setGameState(1);
         }
         StateChanged(ownerState, otherState);
         return true;
@@ -59,13 +78,16 @@ contract TicTacToe {
 
     // Function to test VM exception
     function other(uint16 _newState) public returns(bool) {
+      require(gameState == 0);
+
       if (!valid(otherState, ownerState, _newState)) {
         Error("Invalid move");
         return false;
       }
-      otherState = _newState;
-      if (victory(ownerState)) {
-        // Victory
+      setOtherState(_newState);
+      if (victory(otherState)) {
+        Error("Game over! Other wins!");
+        setGameState(2);
       }
       StateChanged(ownerState, otherState);
       // Require goes after state changes in order to demonstrate changes reversion
