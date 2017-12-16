@@ -96,19 +96,13 @@ contract('TicTacToe', async function(accounts) {
     })
 
     it('should change state when calling main function by contract owner', async () => {
-      const ownerStateInitial = await ticTacToe.ownerState()
-      asserts.equal(ownerStateInitial, 0)
-
-      const otherStateInitial = await ticTacToe.otherState()
-      asserts.equal(otherStateInitial, 0)
-
       await ticTacToe.main(2, {from: OWNER})
 
-      const ownerStateCurrent = await ticTacToe.ownerState()
-      asserts.equal(ownerStateCurrent, 2)
+      const currentOwnerState = await ticTacToe.ownerState()
+      const currentOtherState = await ticTacToe.otherState()
 
-      const otherStateCurrent = await ticTacToe.otherState()
-      asserts.equal(otherStateCurrent, 0)
+      asserts.equal(currentOwnerState, 2)
+      asserts.equal(currentOtherState, 0)
     })
 
     it('should emit event about state changes when calling main function by contract owner', async () => {
@@ -120,17 +114,15 @@ contract('TicTacToe', async function(accounts) {
       asserts.equal(tx.logs[0].args.otherState, 0)
     })
 
-    xit(
-      'should change state when calling other function by non-owner',
-      async () => {
-        const initialState = await ticTacToe.state()
-        asserts.equal(initialState, 0)
+    it('should change state when calling other function by non-owner', async () => {
+      await ticTacToe.other(2, {from: NON_OWNER})
 
-        await ticTacToe.other(2, {from: NON_OWNER})
-        const currentState = await ticTacToe.state()
-        asserts.equal(currentState, 2)
-      }
-    )
+      const currentOwnerState = await ticTacToe.ownerState()
+      const currentOtherState = await ticTacToe.otherState()
+
+      asserts.equal(currentOwnerState, 0)
+      asserts.equal(currentOtherState, 2)
+    })
 
     xit(
       'should emit event about state changes when calling other function by non-owner',
