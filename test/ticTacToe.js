@@ -42,46 +42,37 @@ contract('TicTacToe', async function(accounts) {
   })
 
   describe('Negative', () => {
-    xit('should NOT allow to call main function by non-owner', async () => {
+    it('should NOT allow to call main function by non-owner', async () => {
       const result = await ticTacToe.main.call(1, {from: NON_OWNER})
       assert.isFalse(result)
     })
 
-    xit(
-      'should NOT change state when calling main function by non-owner',
-      async () => {
-        const initialState = await ticTacToe.ownerState()
+    it('should NOT change state when calling main function by non-owner', async () => {
+      const initialState = await ticTacToe.ownerState()
 
-        asserts.equal(initialState, 0)
+      asserts.equal(initialState, 0)
 
-        await ticTacToe.main(2, {from: NON_OWNER})
-        const currentState = await ticTacToe.ownerState()
-        asserts.equal(currentState, 0)
-      }
-    )
+      await ticTacToe.main(2, {from: NON_OWNER})
+      const currentState = await ticTacToe.ownerState()
+      asserts.equal(currentState, 0)
+    })
 
-    xit(
-      'should NOT emit event about state changes when calling main function by non-owner, should emit error event instead',
-      async () => {
-        const tx = await ticTacToe.main(3, {from: NON_OWNER})
-        asserts.equal(tx.logs.length, 1)
-        asserts.equal(tx.logs[0].address, ticTacToe.address)
-        asserts.equal(tx.logs[0].event, 'Error')
-        asserts.equal(tx.logs[0].args.msg, 'You are not the owner')
-      }
-    )
+    it('should NOT emit event about state changes when calling main function by non-owner, should emit error event instead', async () => {
+      const tx = await ticTacToe.main(3, {from: NON_OWNER})
+      asserts.equal(tx.logs.length, 1)
+      asserts.equal(tx.logs[0].address, ticTacToe.address)
+      asserts.equal(tx.logs[0].event, 'Error')
+      asserts.equal(tx.logs[0].args.msg, 'You are not the owner')
+    })
 
-    xit(
-      'should revert transaction when calling other function by contract owner',
-      async () => {
-        const initialState = await ticTacToe.ownerState()
-        asserts.equal(initialState, 0)
+    it('should revert transaction when calling other function by contract owner', async () => {
+      const initialState = await ticTacToe.ownerState()
+      asserts.equal(initialState, 0)
 
-        asserts.throws(ticTacToe.other(5, {from: OWNER}))
-        const currentState = await ticTacToe.ownerState()
-        asserts.equal(currentState, 0)
-      }
-    )
+      asserts.throws(ticTacToe.other(5, {from: OWNER}))
+      const currentState = await ticTacToe.ownerState()
+      asserts.equal(currentState, 0)
+    })
   })
 
   describe('Positive', () => {
