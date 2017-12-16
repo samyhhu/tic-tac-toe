@@ -20,15 +20,10 @@ contract TicTacToe {
     }
 
     function valid(uint16 state, uint16 opponentState, uint16 _newState) private returns(bool) {
-      if (!only_one_bit_set(state ^ _newState)) {
-        // can't play more than one move per turn
-        return false;
-      }
-      if ((opponentState & _newState) > 0) {
-        // can't play on the same space as opponent
-        return false;
-      }
-      return true;
+      return (
+        only_one_bit_set(state ^ _newState) // can't play more than one move per turn
+        && (opponentState & _newState) > 0 // can't play on the same space as opponent
+      );
     }
 
     function victory(uint16 state) private returns(bool) {
