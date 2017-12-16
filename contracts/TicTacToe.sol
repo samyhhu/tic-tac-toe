@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.18;
 
 contract TicTacToe {
     // NOTE: All of the content here is just to provide some test examples

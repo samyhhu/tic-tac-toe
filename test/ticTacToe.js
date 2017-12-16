@@ -29,19 +29,6 @@ contract('TicTacToe', async function(accounts) {
   })
 
   describe('Basic Moves', () => {
-    beforeEach('reset ownerState, otherState, and gameState to 0', async () => {
-      await ticTacToe.setGameState(0)
-      await ticTacToe.setOwnerState(0)
-      await ticTacToe.setOtherState(0)
-
-      const gameState = await ticTacToe.gameState()
-      const ownerState = await ticTacToe.ownerState()
-      const otherState = await ticTacToe.otherState()
-      assert.equal(gameState, 0)
-      assert.equal(ownerState, 0)
-      assert.equal(otherState, 0)
-    })
-
     describe('Negative', () => {
       it('should NOT allow to call main function by non-owner', async () => {
         const result = await ticTacToe.main.call(1, {from: NON_OWNER})
