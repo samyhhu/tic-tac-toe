@@ -15,7 +15,19 @@ contract TicTacToe {
         owner = msg.sender;
     }
 
-    function valid(uint16 state, uint16 _newState) private returns(bool) {
+    function only_one_bit_set(uint16 state) private returns(bool) {
+        return (state > 0 && ~(state & (state-1)) > 0);
+    }
+
+    function valid(uint16 state, uint16 opponentState, uint16 _newState) private returns(bool) {
+      if (!only_one_bit_set(state ^ _newState)) {
+        // can't play more than one move per turn
+        return false;
+      }
+      if ((opponentState & _newState) > 0) {
+        // can't play on the same space as opponent
+        return false;
+      }
       return true;
     }
 
@@ -29,7 +41,7 @@ contract TicTacToe {
           Error("You are not the owner");
           return false;
         }
-        if (!valid(ownerState, _newState)) {
+        if (!valid(ownerState, otherState, _newState)) {
           Error("Invalid move");
           return false;
         }
@@ -43,7 +55,7 @@ contract TicTacToe {
 
     // Function to test VM exception
     function other(uint16 _newState) public returns(bool) {
-      if (!valid(otherState, _newState)) {
+      if (!valid(otherState, ownerState, _newState)) {
         Error("Invalid move");
         return false;
       }
