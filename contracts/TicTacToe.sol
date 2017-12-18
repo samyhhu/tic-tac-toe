@@ -13,6 +13,7 @@ contract TicTacToe {
     event StateChanged(uint16 ownerState, uint16 otherState);
     event Error(string msg);
     event Victory(string msg);
+    event Draw(string msg);
 
     function TicTacToe() public {
         owner = msg.sender;
@@ -42,6 +43,13 @@ contract TicTacToe {
       return (
         only_one_bit_set(state ^ _newState) // can't play more than one move per turn
         && (opponentState & _newState) == 0 // can't play on the same space as opponent
+      );
+    }
+
+    // 111 111 111  = 1 000 000 000 - 1  = 511 
+    function boardFull() private returns(bool) {
+      return (
+        (ownerState | otherState) == 2**9 - 1
       );
     }
 
@@ -78,6 +86,8 @@ contract TicTacToe {
         if (victory(ownerState)) {
           Victory("Game over! Owner wins!");
           gameState = 1;
+        } else if (boardFull()) {
+          Draw("Game over! Draw");
         }
         StateChanged(ownerState, otherState);
         ownersTurn = false;
@@ -104,7 +114,10 @@ contract TicTacToe {
       if (victory(otherState)) {
         Victory("Game over! Other wins!");
         gameState = 2;
+      } else if (boardFull()) {
+          Draw("Game over! Draw");
       }
+
       StateChanged(ownerState, otherState);
       // Require goes after state changes in order to demonstrate changes reversion
       require(msg.sender != owner);

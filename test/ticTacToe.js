@@ -162,5 +162,30 @@ contract('TicTacToe', async function(accounts) {
     })
     it('should allow & log other victory', async () => {})
     it('should allow & log draw', async () => {})
+
+    it("Victory event should trigger ", async () => {
+        await ticTacToe.main(1, {from: OWNER});                   // 000 000 001
+
+        await ticTacToe.other(8, {from: NON_OWNER});              // 000 001 000
+        await ticTacToe.main(3, {from: OWNER});                   // 000 000 011 
+        await ticTacToe.other(24, {from: NON_OWNER});             // 000 011 000 
+        const tx = await ticTacToe.main(7, {from: OWNER});        // 000 000 111 
+
+        asserts.equal(tx.logs[0].event, "Victory");
+        });
+
+   it("Draw event should trigger", async () => {
+        await ticTacToe.main(256, {from: OWNER});                   // 100 000 000 X
+        await ticTacToe.other(128, {from: NON_OWNER});              // 010 000 000 O
+        await ticTacToe.main(272, {from: OWNER});                   // 100 010 000 X 
+        await ticTacToe.other(192, {from: NON_OWNER});              // 011 000 000 O
+        await ticTacToe.main(274, {from: OWNER});                   // 100 010 010 X
+        await ticTacToe.other(224, {from: NON_OWNER});              // 011 100 000 O
+        await ticTacToe.main(282, {from: OWNER});                   // 100 011 010 X
+        await ticTacToe.other(225, {from: NON_OWNER});              // 011 100 001 O
+        const tx = await ticTacToe.main(286, {from: OWNER});        // 100 011 110 X
+
+        asserts.equal(tx.logs[0].event, "Draw");
+        });
   })
 })
