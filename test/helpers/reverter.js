@@ -3,7 +3,7 @@ function Reverter(web3) {
 
     this.revert = () => {
         return new Promise((resolve, reject) => {
-            web3.currentProvider.sendAsync({
+            web3.currentProvider.send({
                 jsonrpc: '2.0',
                 method: 'evm_revert',
                 id: new Date().getTime(),
@@ -19,7 +19,7 @@ function Reverter(web3) {
 
     this.snapshot = () => {
         return new Promise((resolve, reject) => {
-            web3.currentProvider.sendAsync({
+            web3.currentProvider.send({
                 jsonrpc: '2.0',
                 method: 'evm_snapshot',
                 id: new Date().getTime()
@@ -27,7 +27,7 @@ function Reverter(web3) {
                 if (err) {
                     return reject(err);
                 }
-                snapshotId = web3.toDecimal(result.result);
+                snapshotId = web3.utils.toDecimal(result.result);
                 return resolve();
             });
         });

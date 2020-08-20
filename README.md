@@ -12,6 +12,7 @@ $ npm install
 ```
 $ npm run ganache-cli
 ```
+Note: must use node v8,10, or 12. v14 doesn't work
 
 ### Running tests
 
