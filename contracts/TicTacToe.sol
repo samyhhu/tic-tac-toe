@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.5.16;
 
 contract TicTacToe {
     // NOTE: All of the content here is just to provide some test examples
@@ -15,7 +15,7 @@ contract TicTacToe {
     event Victory(string msg);
     event Draw(string msg);
 
-    function TicTacToe() public {
+    constructor () public {
         owner = msg.sender;
         ownersTurn = true;
     }
@@ -71,25 +71,25 @@ contract TicTacToe {
         require(gameState == 0);
 
         if (ownersTurn != true) {
-          Error("Wrong player");
+          emit Error("Wrong player");
           return false;
         }
         if (msg.sender != owner) {
-          Error("You are not the owner");
+          emit Error("You are not the owner");
           return false;
         }
         if (!valid(ownerState, otherState, _newState)) {
-          Error("Invalid move");
+          emit Error("Invalid move");
           return false;
         }
         ownerState = _newState;
         if (victory(ownerState)) {
-          Victory("Game over! Owner wins!");
+          emit Victory("Game over! Owner wins!");
           gameState = 1;
         } else if (boardFull()) {
-          Draw("Game over! Draw");
+          emit Draw("Game over! Draw");
         }
-        StateChanged(ownerState, otherState);
+        emit StateChanged(ownerState, otherState);
         ownersTurn = false;
         return true;
     }
@@ -99,26 +99,26 @@ contract TicTacToe {
       require(gameState == 0);
 
       if (ownersTurn != false) {
-        Error("Wrong player");
+        emit Error("Wrong player");
         return false;
       }
       if (msg.sender == owner) {
-        Error("Owner can not play for other");
+        emit Error("Owner can not play for other");
         return false;
       }
       if (!valid(otherState, ownerState, _newState)) {
-        Error("Invalid move");
+        emit Error("Invalid move");
         return false;
       }
       otherState = _newState;
       if (victory(otherState)) {
-        Victory("Game over! Other wins!");
+        emit Victory("Game over! Other wins!");
         gameState = 2;
       } else if (boardFull()) {
-          Draw("Game over! Draw");
+          emit Draw("Game over! Draw");
       }
 
-      StateChanged(ownerState, otherState);
+      emit StateChanged(ownerState, otherState);
       // Require goes after state changes in order to demonstrate changes reversion
       require(msg.sender != owner);
       ownersTurn = true;

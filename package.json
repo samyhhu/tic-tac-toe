@@ -6,7 +6,7 @@
     "test": "truffle test",
     "compile": "truffle compile",
     "truffle": "truffle",
-    "ganache-cli": "ganache-cli --version"
+    "ganache-cli": "ganache-cli"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "license": "LGPL-3.0",
   "homepage": "",
   "dependencies": {
-    "ganache-cli": "6.0.3",
-    "truffle": "4.0.3"
+    "ganache-cli": "6.10.1",
+    "truffle": "5.1.41"
   }
 }

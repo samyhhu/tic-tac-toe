@@ -125,67 +125,67 @@ contract('TicTacToe', async function(accounts) {
         asserts.equal(tx.logs[0].args.otherState, 2)
       })
     })
-  })
+   })
 
-  describe('Game Flows', () => {
-    it('should reject invalid uint16 representations of board positions by owner', async () => {})
-    it('should reject invalid uint16 representations of board positions by other', async () => {})
-    it('should reject two sequential moves by owner', async () => {})
-    it('should reject two sequential moves by other', async () => {})
-    it('should reject multiple simultaneous moves by owner', async () => {})
-    it('should reject multiple simultaneous moves by other', async () => {})
-    it('should allow & log other victory', async () => {
-      let gameState
-      let currentOwnerState
-      let currentOtherState
+   describe('Game Flows', () => {
+     it('should reject invalid uint16 representations of board positions by owner', async () => {})
+     it('should reject invalid uint16 representations of board positions by other', async () => {})
+     it('should reject two sequential moves by owner', async () => {})
+     it('should reject two sequential moves by other', async () => {})
+     it('should reject multiple simultaneous moves by owner', async () => {})
+     it('should reject multiple simultaneous moves by other', async () => {})
+     it('should allow & log other victory', async () => {
+       let gameState
+       let currentOwnerState
+       let currentOtherState
 
-      await ticTacToe.main(1, {from: OWNER})
-      currentOwnerState = await ticTacToe.ownerState()
-      asserts.equal(currentOwnerState, 1)
+       await ticTacToe.main(1, {from: OWNER})
+       currentOwnerState = await ticTacToe.ownerState()
+       asserts.equal(currentOwnerState, 1)
 
-      await ticTacToe.other(2, {from: NON_OWNER})
-      currentOtherState = await ticTacToe.otherState()
-      asserts.equal(currentOtherState, 2)
+       await ticTacToe.other(2, {from: NON_OWNER})
+       currentOtherState = await ticTacToe.otherState()
+       asserts.equal(currentOtherState, 2)
 
-      await ticTacToe.main(17, {from: OWNER})
-      currentOwnerState = await ticTacToe.ownerState()
-      asserts.equal(currentOwnerState, 17)
+       await ticTacToe.main(17, {from: OWNER})
+       currentOwnerState = await ticTacToe.ownerState()
+       asserts.equal(currentOwnerState, 17)
 
-      await ticTacToe.other(6, {from: NON_OWNER})
-      currentOtherState = await ticTacToe.otherState()
-      asserts.equal(currentOtherState, 6)
+       await ticTacToe.other(6, {from: NON_OWNER})
+       currentOtherState = await ticTacToe.otherState()
+       asserts.equal(currentOtherState, 6)
 
-      await ticTacToe.main(273, {from: OWNER})
+       await ticTacToe.main(273, {from: OWNER})
 
-      gameState = await ticTacToe.gameState()
-      assert.equal(gameState, 1) // owner wins!
-    })
-    it('should allow & log other victory', async () => {})
-    it('should allow & log draw', async () => {})
+       gameState = await ticTacToe.gameState()
+       assert.equal(gameState, 1) // owner wins!
+     })
+     it('should allow & log other victory', async () => {})
+     it('should allow & log draw', async () => {})
 
-    it("Victory event should trigger ", async () => {
-        await ticTacToe.main(1, {from: OWNER});                   // 000 000 001
+     it("Victory event should trigger ", async () => {
+         await ticTacToe.main(1, {from: OWNER});                   // 000 000 001
 
-        await ticTacToe.other(8, {from: NON_OWNER});              // 000 001 000
-        await ticTacToe.main(3, {from: OWNER});                   // 000 000 011 
-        await ticTacToe.other(24, {from: NON_OWNER});             // 000 011 000 
-        const tx = await ticTacToe.main(7, {from: OWNER});        // 000 000 111 
+         await ticTacToe.other(8, {from: NON_OWNER});              // 000 001 000
+         await ticTacToe.main(3, {from: OWNER});                   // 000 000 011 
+         await ticTacToe.other(24, {from: NON_OWNER});             // 000 011 000 
+         const tx = await ticTacToe.main(7, {from: OWNER});        // 000 000 111 
 
-        asserts.equal(tx.logs[0].event, "Victory");
-        });
+         asserts.equal(tx.logs[0].event, "Victory");
+         });
 
-   it("Draw event should trigger", async () => {
-        await ticTacToe.main(256, {from: OWNER});                   // 100 000 000 X
-        await ticTacToe.other(128, {from: NON_OWNER});              // 010 000 000 O
-        await ticTacToe.main(272, {from: OWNER});                   // 100 010 000 X 
-        await ticTacToe.other(192, {from: NON_OWNER});              // 011 000 000 O
-        await ticTacToe.main(274, {from: OWNER});                   // 100 010 010 X
-        await ticTacToe.other(224, {from: NON_OWNER});              // 011 100 000 O
-        await ticTacToe.main(282, {from: OWNER});                   // 100 011 010 X
-        await ticTacToe.other(225, {from: NON_OWNER});              // 011 100 001 O
-        const tx = await ticTacToe.main(286, {from: OWNER});        // 100 011 110 X
+    it("Draw event should trigger", async () => {
+         await ticTacToe.main(256, {from: OWNER});                   // 100 000 000 X
+         await ticTacToe.other(128, {from: NON_OWNER});              // 010 000 000 O
+         await ticTacToe.main(272, {from: OWNER});                   // 100 010 000 X 
+         await ticTacToe.other(192, {from: NON_OWNER});              // 011 000 000 O
+         await ticTacToe.main(274, {from: OWNER});                   // 100 010 010 X
+         await ticTacToe.other(224, {from: NON_OWNER});              // 011 100 000 O
+         await ticTacToe.main(282, {from: OWNER});                   // 100 011 010 X
+         await ticTacToe.other(225, {from: NON_OWNER});              // 011 100 001 O
+         const tx = await ticTacToe.main(286, {from: OWNER});        // 100 011 110 X
 
-        asserts.equal(tx.logs[0].event, "Draw");
-        });
-  })
+         asserts.equal(tx.logs[0].event, "Draw");
+         });
+   })
 })
